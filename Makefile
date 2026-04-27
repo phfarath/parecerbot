@@ -10,7 +10,7 @@ ingest:
 	. .venv/bin/activate && python -m src.ingest
 
 run:
-	. .venv/bin/activate && streamlit run src/app.py --server.port 8501
+	. .venv/bin/activate && streamlit run src/app.py --server.port 8501 --server.fileWatcherType none
 
 clean:
 	rm -rf chroma_db/
