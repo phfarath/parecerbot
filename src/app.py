@@ -99,9 +99,18 @@ def main():
                 mime="text/plain",
             )
 
-    for msg in st.session_state.messages:
+    for idx, msg in enumerate(st.session_state.messages):
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
+            if msg["role"] == "assistant":
+                copy_key = f"copy_{idx}_{hash(msg['content'][:50])}"
+                st.download_button(
+                    "Copiar resposta",
+                    data=msg["content"],
+                    file_name="resposta.txt",
+                    key=copy_key,
+                    mime="text/plain",
+                )
             if "sources" in msg and msg["sources"]:
                 render_sources(msg["sources"])
 
