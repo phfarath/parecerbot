@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import streamlit as st
@@ -28,7 +28,13 @@ def render_sources(sources: list[dict]):
         return
     with st.expander(f"Fontes ({len(sources)})", expanded=False):
         for src in sources:
-            st.markdown(f"**{src['source']}** > {src['section']}")
+            filepath = src.get("filepath", "")
+            if filepath:
+                abs_path = os.path.abspath(filepath)
+                file_url = f"file://{abs_path}"
+                st.markdown(f"[**{src['source']}** > {src['section']}]({file_url})")
+            else:
+                st.markdown(f"**{src['source']}** > {src['section']}")
             st.caption(src["content"])
             st.divider()
 

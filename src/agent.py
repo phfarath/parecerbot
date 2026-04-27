@@ -154,6 +154,9 @@ def query_stream(query: str, history: list[dict]):
                 "section": c["metadata"]["section"],
                 "content": c["content"][:200],
                 "distance": c["distance"],
+                "filepath": os.path.join(
+                    os.path.dirname(__file__), "..", "docs", "mock_data", c["metadata"]["source"]
+                ),
             }
             for c in chunks
         ],
