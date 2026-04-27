@@ -1,184 +1,183 @@
-# Manual de Analise de Viabilidade — PX Ativos Judiciais
+# Manual de Análise de Viabilidade
 
-**Versao:** 2.1 | **Vigencia:** 01/02/2025 | **Classificacao:** Interno — Uso Restrito
-
----
-
-## 1. Metodologia de Scoring
-
-A Analise de Viabilidade constitui a terceira e decisiva etapa do pipeline de aquisicao de creditos judiciais da PX. Recebe os outputs da Due Diligence e aplica um modelo quantitativo de risco-retorno para determinar se o credito deve ser adquirido, sob quais condicoes e qual o valor maximo de aporte.
-
-### 1.1 Score de Viabilidade PX (SVP)
-
-O SVP e composto por quatro fatores ponderados:
-
-| Fator | Peso | Descricao |
-|-------|------|-----------|
-| Probabilidade Juridica de Sucesso (PJS) | 35% | Chance de recebimento integral ou parcial do credito, com base na analise juridica da DD |
-| Multiplo de Retorno Ajustado (MRA) | 25% | Retorno esperado ponderado pelo risco, descontado pelo custo de capital |
-| Prazo de Recuperacao (PR) | 20% | Tempo estimado para efetivo recebimento, com penalizacao por prazos longos |
-| Qualidade Patrimonial do Devedor (QPD) | 20% | Solidez e liquidez dos bens identificados para garantia da execucao |
-
-**SVP = (PJS x 0,35) + (MRA x 0,25) + (PR x 0,20) + (QPD x 0,20)**
-
-Cada fator e pontuado de 1 a 10. O SVP resultante varia de 1 a 10.
-
-### 1.2 Limiares de Decisao
-
-| SVP | Classificacao | Decisao | Aporte Maximo |
-|-----|---------------|---------|---------------|
-| 8.0 — 10.0 | Excelente | Aprovacao automatica | 65% do valor nominal |
-| 6.5 — 7.9 | Bom | Aprovacao com condicoes padrao | 55% do valor nominal |
-| 5.0 — 6.4 | Aceitavel | Aprovacao condicionada — requer Comite | 45% do valor nominal |
-| 3.5 — 4.9 | Marginal | Rejeicao recomendada — pode ser submetido ao Comite com justificativa | 35% do valor nominal |
-| Abaixo de 3.5 | Inviavel | Rejeicao obrigatoria | N/A |
+**Documento:** MV-001
+**Versão:** 4.0
+**Vigência:** A partir de 01/03/2026
+**Aprovação:** Comitê de Investimentos
+**Revisão:** Trimestral
 
 ---
 
-## 2. Matriz Risco x Retorno
+## 1. Objetivo
 
-### 2.1 Cenarios de Analise
+Este manual descreve a metodologia de precificação e scoring aplicada após a Due Diligence (DD-001). A análise de viabilidade transforma o parecer técnico da DD em uma decisão de investimento com preço-alvo, faixa de aceite e classificação de risco.
 
-Todo credito deve ser avaliado em tres cenarios:
+A decisão final de aquisição cabe ao Comitê de Investimentos, mas todo ativo deve ter parecer de viabilidade emitido conforme este manual.
 
-| Cenario | Premissa | Utilizacao |
-|---------|----------|------------|
-| Otimista | Recebimento integral no prazo minimo estimado, sem incidentes processuais | Referencia superior — nao usado para decisao isoladamente |
-| Base | Recebimento de 75-85% do valor atualizado no prazo medio estimado | Cenario primario para decisao |
-| Pessimista | Recebimento de 50-65% do valor atualizado no prazo maximo estimado, com custas adicionais | Teste de estresse — SVP nao pode ser inferior a 5.0 neste cenario |
+## 2. Estrutura da análise
 
-### 2.2 Tabela de Probabilidades por Tipo de Acao
+A análise de viabilidade é composta por quatro etapas:
 
-Valores ilustrativos baseados em benchmarks publicos do setor — a serem validados com dados reais da PX.
+1. **Estimativa de fluxo de caixa** — quanto e quando o ativo paga
+2. **Cálculo do valor presente** — desconto pela taxa apropriada
+3. **Scoring de risco** — classificação em A / B / C / D
+4. **Precificação final** — preço-alvo e faixa de aceite
 
-| Tipo de Acao | Prob. Sucesso Base | Faixa Pessimista | Faixa Otimista | Volatilidade |
-|--------------|-------------------|------------------|----------------|--------------|
-| Trabalhista (execucao com garantia) | 80% | 60% | 92% | Baixa |
-| Trabalhista (execucao provisorio) | 65% | 40% | 82% | Media |
-| Civel (precatorio inscrito) | 75% | 55% | 88% | Baixa |
-| Civel (execucao contra particular) | 60% | 35% | 78% | Alta |
-| Consumidor (sentenca transitada) | 78% | 58% | 90% | Baixa |
-| Consumidor (execucao provisorio) | 55% | 30% | 75% | Alta |
-| Previdenciario (RPV) | 85% | 70% | 95% | Muito baixa |
-| Previdenciario (precatorio) | 70% | 50% | 85% | Media |
+## 3. Etapa 1 — Estimativa de fluxo de caixa
 
-### 2.3 Multiplos de Retorno Esperado
+### 3.1 Valor de face
 
-| Tipo de Acao | Multiplo Bruto (base) | Multiplo Liquido (apos custos) | Taxa Interna de Retorno anual |
-|--------------|-----------------------|-------------------------------|------------------------------|
-| Trabalhista | 1.8x — 2.5x | 1.4x — 1.9x | 18% — 28% |
-| Civel | 1.6x — 2.8x | 1.3x — 2.1x | 15% — 25% |
-| Consumidor | 1.5x — 2.2x | 1.2x — 1.7x | 14% — 22% |
-| Previdenciario | 1.7x — 2.3x | 1.3x — 1.8x | 16% — 24% |
+Valor nominal da condenação na data de referência da análise, atualizado pelos índices definidos na sentença ou, na ausência, pelos critérios padrão por natureza:
 
----
+| Natureza | Correção monetária | Juros |
+|---|---|---|
+| Trabalhista (após reforma 2017) | TR | 1% a.m. simples |
+| Cível | IPCA-E | 1% a.m. simples (Selic a partir de 2021) |
+| Consumidor | IPCA-E | 1% a.m. simples |
+| Previdenciário federal | IPCA-E | 1% a.m. simples |
+| Tributário (repetição) | Selic | Incluída na Selic |
 
-## 3. Valor Presente Estimado
+### 3.2 Estimativa de prazo
 
-### 3.1 Metodologia de Calculo
+Prazo até o efetivo recebimento, em meses, considerando:
 
-O Valor Presente Liquido (VPL) e calculado utilizando a seguinte formula:
+| Natureza / Devedor | Prazo médio (meses) | Faixa típica |
+|---|---|---|
+| Trabalhista — devedor solvente | 8 | 4 – 18 |
+| Trabalhista — recuperação judicial | 36 | 24 – 72 |
+| Cível — réu privado solvente | 10 | 6 – 24 |
+| Cível — precatório expedido | 18 | 12 – 36 |
+| Consumidor — réu solvente | 6 | 3 – 12 |
+| RPV federal | 3 | 2 – 4 |
+| Precatório federal | 18 | 12 – 24 |
+| Precatório estadual (em dia) | 24 | 18 – 36 |
+| Precatório estadual (atraso) | 60 | 36 – 120 |
+| Tributário | 12 | 8 – 24 |
 
-**VPL = Σ (CFt / (1 + r)^t) - Investimento Inicial**
+Os prazos são revisados trimestralmente com base no histórico de pagamento da carteira.
+
+### 3.3 Haircut por riscos identificados
+
+Sobre o valor de face atualizado, aplicar haircut conforme a Tabela de Riscos (TR-001), que considera:
+
+- Risco de devedor (solvência)
+- Risco processual (recursos pendentes, prescrição)
+- Risco de execução (penhora frutífera, bens livres)
+
+## 4. Etapa 2 — Valor presente
+
+O valor presente do ativo é calculado descontando o fluxo de caixa estimado pela taxa de desconto da PX:
+
+```
+VP = FC_estimado / (1 + i)^t
+```
 
 Onde:
-- **CFt** = Fluxo de caixa estimado no periodo t (recebimento parcial ou integral)
-- **r** = Taxa de desconto ajustada ao risco (ver Secao 4)
-- **t** = Periodo em meses ate o recebimento
-- **Investimento Inicial** = Valor aportado pela PX na antecipacao (valor pago ao cedente + custas + honorarios)
+- `FC_estimado` = valor de face atualizado × (1 − haircut total)
+- `i` = taxa de desconto mensal equivalente à meta de retorno por classe de risco
+- `t` = prazo estimado em meses
 
-### 3.2 Premissas de Calculo
+### 4.1 Taxa de desconto por classe de risco
 
-- Atualizacao monetaria: INPC ate 12/2021, IPCA-E a partir de 01/2022
-- Juros de mora: conforme tipo de acao (ver tabela por categoria na DD)
-- Custos operacionais estimados: 3-5% do valor aportado (honorarios, custas, consultas)
-- Taxa de administracao do portfolio: 1.5% a.a. sobre o valor investido
-- Provision para perdas: 5-15% conforme score de complexidade (Score 1 = 5%, Score 4 = 15%)
+A taxa de desconto reflete a meta de retorno mínima exigida por classe.
 
----
+| Classe | Retorno-alvo (TIR a.a.) | Taxa mensal equivalente |
+|---|---|---|
+| A | 18% | 1,389% |
+| B | 24% | 1,808% |
+| C | 30% | 2,210% |
+| D | 36%+ | 2,596%+ |
 
-## 4. Taxas de Desconto Aplicaveis
+Operações classificadas como D são aprovadas apenas com aval expresso do Comitê.
 
-### 4.1 Tabela de Taxas por Tipo de Acao e Score de Complexidade
+## 5. Etapa 3 — Scoring de risco
 
-Valores ilustrativos baseados em benchmarks publicos do setor — a serem validados com dados reais da PX.
+O scoring de risco classifica o ativo em A, B, C ou D combinando três dimensões. Cada dimensão recebe nota de 1 (melhor) a 4 (pior). A classe final é a **pior nota** entre as três.
 
-| Tipo de Acao | Score 1-2 | Score 3 | Score 4 | Base de Calculo |
-|--------------|-----------|---------|---------|-----------------|
-| Trabalhista | 18% — 20% | 20% — 24% | 24% — 28% | CDI + spread de risco |
-| Civel | 15% — 18% | 18% — 20% | 20% — 24% | CDI + spread de risco |
-| Consumidor | 12% — 16% | 16% — 18% | 18% — 22% | CDI + spread de risco |
-| Previdenciario | 20% — 24% | 24% — 26% | 26% — 30% | CDI + spread de risco + prazo |
+### 5.1 Dimensão 1 — Devedor
 
-### 4.2 Componentes da Taxa de Desconto
+| Nota | Critério |
+|---|---|
+| 1 | União, grandes empresas listadas em IBOV, bancos top 5 |
+| 2 | Estados em dia com precatórios, empresas de capital aberto |
+| 3 | Empresas de capital fechado solventes, municípios capitais |
+| 4 | Empresas em RJ, Estados em atraso, municípios sem histórico |
 
-A taxa de desconto e composta por:
+### 5.2 Dimensão 2 — Risco processual
 
-1. **Taxa livre de risco:** CDI acumulado dos ultimos 12 meses (proxy para custo de capital)
-2. **Spread de risco juridico:** 5-15 pontos percentuais conforme complexidade e probabilidade de exito
-3. **Spread de prazo:** 2-5 pontos percentuais para prazos superiores a 36 meses
-4. **Spread de liquidez:** 2-4 pontos percentuais para creditos de dificil execucao ou devedores sem patrimonio liquido
+| Nota | Critério |
+|---|---|
+| 1 | Trânsito em julgado, sem recursos pendentes, cálculo homologado |
+| 2 | Trânsito em julgado, recursos extraordinários ainda admissíveis |
+| 3 | Cumprimento iniciado mas com embargos pendentes |
+| 4 | Risco de prescrição em até 12 meses ou disputa sobre cessão |
 
-### 4.3 Revisao de Taxas
+### 5.3 Dimensão 3 — Liquidez
 
-As taxas de desconto sao revisadas trimestralmente pelo Comite de Risco Financeiro, com base em:
-- Variacao do CDI e Selic
-- Taxa de inadimplencia do portfolio nos ultimos 12 meses
-- Realizado vs. projetado de creditos liquidados no periodo
+| Nota | Prazo estimado |
+|---|---|
+| 1 | Até 6 meses |
+| 2 | 7 a 18 meses |
+| 3 | 19 a 36 meses |
+| 4 | Acima de 36 meses |
 
----
+### 5.4 Exemplo de classificação
 
-## 5. Criterios de Aprovacao
+Ativo trabalhista contra empresa de capital aberto, sentença transitada, recurso especial não admitido, prazo estimado de 10 meses:
 
-### 5.1 Requisitos Obrigatorios
+- Devedor: nota 2
+- Processual: nota 1
+- Liquidez: nota 2
+- **Classe final: B**
 
-Todo credito deve atender cumulativamente a:
+## 6. Etapa 4 — Precificação
 
-1. **SVP minimo de 5.0** no cenario base
-2. **VPL positivo** no cenario base e nao negativo no cenario pessimista
-3. **Probabilidade de recebimento** minima de 50% no cenario pessimista
-4. **Concentracao de portfolio:** nenhum credito pode representar mais de 10% do portfolio total da PX
-5. **Concentracao por tipo:** maximo de 35% do portfolio em um unico tipo de acao
-6. **Concentracao por devedor:** maximo de 15% do portfolio vinculado ao mesmo devedor ou grupo economico
+### 6.1 Preço-alvo
 
-### 5.2 Niveis de Aprovacao
+Preço-alvo é o valor presente calculado conforme seção 4, ajustado pela margem de operação (5% a 8% sobre o VP).
 
-| Valor Nominal do Credito | Aprovacao Necessaria |
-|--------------------------|---------------------|
-| Ate R$ 100.000 | Coordenador de Origination + Analista Financeiro |
-| R$ 100.001 — R$ 300.000 | Diretor de Operacoes + Diretor Financeiro |
-| R$ 300.001 — R$ 500.000 | Comite de Aprovacao (3 diretores) |
-| Acima de R$ 500.000 | Comite de Aprovacao + CEO (aprovacao unanime) |
+### 6.2 Faixa de aceite
 
----
+A faixa de aceite define os limites de negociação:
 
-## 6. Excecoes e Ressalvas
+| Classe | Limite inferior | Limite superior |
+|---|---|---|
+| A | 92% do VP | 100% do VP |
+| B | 88% do VP | 100% do VP |
+| C | 80% do VP | 95% do VP |
+| D | 70% do VP | 90% do VP |
 
-### 6.1 Excecoes Permitidas
+Aquisições no limite superior exigem expectativa de retorno superior à média da carteira da classe.
 
-Excecoes aos criterios acima podem ser concedidas nas seguintes situacoes:
+## 7. Critérios de rejeição na viabilidade
 
-1. **Credito com garantia real constituída** (penhora sobre dinheiro, imovel com matricula limpa): SVP minimo pode ser reduzido para 4.0
-2. **Cedente estrategico** (parceria de longo prazo, volume recorrente): Aporte maximo pode ser aumentado em ate 10 p.p., mediante aprovacao do Diretor Comercial
-3. **Credito previdenciario RPV** (prazo curto, baixa volatilidade): Score de complexidade pode ser reduzido em 1 ponto
-4. **Precatorio com preferencia legal** (idoso, doenca grave): Prazo de recuperacao pode ser desconsiderado no calculo do SVP
+Mesmo após DD positiva, o ativo pode ser rejeitado na análise de viabilidade se:
 
-### 6.2 Registro de Excecoes
+1. Valor presente inferior a 50% do valor de face
+2. Prazo estimado superior a 60 meses sem prêmio compatível
+3. Classe D sem aval do Comitê
+4. Concentração: ativo levaria a exposição > 5% da carteira em um único devedor
 
-Toda excecao deve ser:
+## 8. Documentação do parecer
 
-- Formalmente solicitada pelo analista responsavel
-- Aprovada pelo nivel hierarquico imediatamente superior ao requerido normalmente
-- Registrada no sistema de gestao com a justificativa completa
-- Reportada ao Comite de Risco na reuniao mensal seguinte
-- Contabilizada no limite de excecoes do trimestre (maximo 10% dos deals aprovados)
+O parecer de viabilidade deve conter:
 
-### 6.3 Ressalvas Gerais
+- Identificação do ativo (número do processo, partes, natureza)
+- Resumo da DD (referência ao relatório DD)
+- Estimativa de fluxo de caixa (valor de face, haircut, valor líquido)
+- Cálculo do valor presente (taxa, prazo)
+- Scoring de risco (notas das três dimensões + classe final)
+- Preço-alvo e faixa de aceite
+- Recomendação ao Comitê
 
-- Os parametros deste manual sao referenciais e nao substituem o julgamento profissional dos analistas e diretores envolvidos na decisao
-- Casos com caracteristicas atipicas nao previstas neste manual devem ser submetidos diretamente ao Comite de Aprovacao
-- Divergencias entre analistas sobre pontuacao do SVP sao resolvidas pela media aritmetica das pontuacoes, arredondada para o inteiro mais proximo
+## 9. Revisão e backtesting
 
----
+Trimestralmente, o time de Risco compara prazos e taxas de recuperação reais contra as estimativas usadas nos pareceres. Desvios sistemáticos acima de 15% disparam revisão deste manual.
 
-*Documento aprovado pelo Comite de Risco Financeiro em 25/01/2025. Proxima revisao: 25/07/2025.*
+## 10. Documentos Relacionados
+
+- PT-001 — Política de Triagem
+- DD-001 — Template de Due Diligence
+- TR-001 — Tabela de Riscos
+- JE-001 — Jurisprudência: Exemplos de Casos
+- FO-001 — Fluxo Operacional

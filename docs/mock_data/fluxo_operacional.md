@@ -1,239 +1,243 @@
-# Fluxo Operacional — PX Ativos Judiciais
+# Fluxo Operacional
 
-**Versao:** 4.0 | **Vigencia:** 01/03/2025 | **Classificacao:** Interno — Uso Restrito
+**Documento:** FO-001
+**Versão:** 3.5
+**Vigência:** A partir de 15/02/2026
+**Aprovação:** Diretoria de Operações
+**Revisão:** Semestral
 
 ---
 
-## 1. Visao Geral do Processo
+## 1. Propósito
 
-O pipeline de aquisicao de creditos judiciais da PX e composto por cinco etapas sequenciais, cada uma com entradas, saidas, responsaveis e SLAs definidos. O objetivo e garantir que cada credito seja avaliado com rigor, velocidade e rastreabilidade.
+Este documento descreve o fluxo end-to-end das operações da PX Ativos Judiciais, desde a captação de oportunidades até o monitoramento pós-aquisição. Serve como referência única para a sequência de etapas, papéis envolvidos, sistemas utilizados e SLAs.
+
+## 2. Visão geral do fluxo
 
 ```
-Oportunidade → Triagem → Due Diligence → Analise de Viabilidade → Aprovacao → Monitoramento
+Originação → Triagem → Due Diligence → Análise de Viabilidade
+    → Comitê → Formalização → Pagamento → Cumprimento
+    → Recebimento → Liquidação
 ```
 
-**Tempo total estimado (melhor caso):** 20 dias uteis (triagem + DD + analise + aprovacao)
-**Tempo total estimado (caso complexo):** 45 dias uteis
+Cada etapa é detalhada nas seções abaixo.
 
----
+## 3. Etapa 1 — Originação
 
-## 2. Etapa 1: Triagem Inicial
+### 3.1 Canais
+- Originadores diretos (parceiros recorrentes)
+- Intermediários (boutique, despachantes)
+- Leilões judiciais
+- Indicação direta de cedentes
 
-### Entradas
-- Formulario de oportunidade preenchido (canal: site, e-mail, parceiro, API)
-- Documentacao minima: peticao inicial + sentenca ou decisao relevante
-- Dados do cedente (identificacao, contato, relacao com o credito)
+### 3.2 Atividades
+1. Captação da oportunidade
+2. Recepção de documentação preliminar (sentença, valor, partes)
+3. Cadastro em sistema (Pipefy, módulo "Originação")
+4. Encaminhamento para triagem
 
-### Processamento
-1. Recebimento e registro no sistema (protocolo PX-TRI-AAAA-NNNNN)
-2. Verificacao de completude documental minima
-3. Classificacao por tipo de acao (trabalhista, civel, consumidor, previdenciario)
-4. Aplicacao dos criterios de aceite/rejeicao por tipo (Politica de Triagem, Secao 2)
-5. Enquadramento na faixa de valor e prazo (Politica de Triagem, Secao 3)
-6. Atribuicao do Score de Complexidade (1-5)
-7. Decisao: aprovado para DD / retido / rejeitado
+### 3.3 Responsável
+Time de Originação.
 
-### Saidas
-- Parecer de triagem com score e recomendacao
-- Classificacao e prioridade do deal
-- Lista de documentos complementares solicitados (se aplicavel)
+### 3.4 SLA
+24 horas para cadastro a partir do recebimento da documentação.
 
-### Responsaveis
+## 4. Etapa 2 — Triagem
 
-| Funcao | Papel |
-|--------|-------|
-| Analista de Triagem | Execucao da triagem, score, recomendacao |
-| Coordenador de Origination | Homologacao de scores >= 4 |
-| Diretor Juridico | Decisao sobre casos borderline |
+### 4.1 Atividades
+1. Aplicação dos critérios da PT-001
+2. Validação de documentação mínima
+3. Pré-aceite ou rejeição com motivo formal
 
-### SLA
-- **5 dias uteis** a partir do recebimento completo da documentacao
-- Deals com prioridade critica (valor > R$ 500k): 3 dias uteis
+### 4.2 Saída
+- Pré-aceite: encaminhamento à DD
+- Rejeição: comunicação ao originador com motivo
 
-### Gargalos Conhecidos
-- Cedentes que nao enviam documentacao completa na primeira submissao (causa de 40% dos atrasos)
-- Classificacao de acoes com caracteristicas hibridas (ex: trabalhista + civil) requer consulta ao Diretor Juridico
-- Volume de oportunidades em periodos de campanha de parceiros pode gerar fila de triagem
+### 4.3 Responsável
+Coordenação de Triagem.
 
----
+### 4.4 SLA
+- Pré-aceite/rejeição: 48 horas úteis
+- Encaminhamento à DD após pré-aceite: 5 dias úteis
 
-## 3. Etapa 2: Due Diligence
+## 5. Etapa 3 — Due Diligence
 
-### Entradas
-- Parecer de triagem aprovado com score
-- Documentacao do cedente (completa apos complementacoes da triagem)
-- Documentos processuais (peticao, sentenca, acordao, COP)
+### 5.1 Atividades
+Execução dos cinco blocos da DD-001:
+1. Documental (Analista Jr)
+2. Processual (Analista Pleno)
+3. Cedente (Analista Pleno)
+4. Devedor (Analista Sr)
+5. Risco específico (Analista Sr + Coord.)
 
-### Processamento
-1. Verificacao documental (checklist de documentos obrigatorios e complementares)
-2. Analise juridica (solidez da sentenca, riscos recursais, qualidade da execucao)
-3. Pesquisa patrimonial do devedor (SISBAJUD, INFOJUD, CADIM, cartorios, SERASA)
-4. Consulta de acoes conexas e dependentes
-5. Verificacao de red flags e deal-breakers
-6. Calculo financeiro preliminar (valor atualizado, estimativa de custos)
-7. Emissao do relatorio de DD
+### 5.2 Saída
+Relatório de DD com uma das três recomendações:
+- Aprovar com preço de referência
+- Aprovar com ressalva
+- Rejeitar
 
-### Saidas
-- Relatorio de DD completo (juridico, financeiro, patrimonial)
-- Lista de red flags identificados (classificados por severidade)
-- Score de complexidade confirmado ou retificado
-- Recomendacao de prosseguimento ou rejeicao
+### 5.3 Responsável
+Time Jurídico.
 
-### Responsaveis
+### 5.4 SLA
+Conforme tabela do DD-001:
+- Até R$ 200k: 3 dias úteis
+- R$ 200k–1M: 5 dias úteis
+- R$ 1M–5M: 8 dias úteis
+- Acima de R$ 5M: 12 dias úteis
 
-| Funcao | Papel |
-|--------|-------|
-| Analista de DD | Execucao da DD e relatorio |
-| Revisor Juridico | Revisao de deals com score >= 3 |
-| Assistente de DD | Pesquisas patrimoniais e consultas |
-| Coordenador de DD | Parecer consolidado e recomendacao final |
+## 6. Etapa 4 — Análise de Viabilidade
 
-### SLA
-- Score 1-2: **5 dias uteis**
-- Score 3: **10 dias uteis**
-- Score 4: **15 dias uteis**
+### 6.1 Atividades
+Aplicação da metodologia do MV-001:
+1. Estimativa de fluxo de caixa
+2. Cálculo do valor presente
+3. Scoring de risco (A/B/C/D)
+4. Definição de preço-alvo e faixa de aceite
 
-### Gargalos Conhecidos
-- Pesquisa patrimonial em comarcas sem sistema online (requer expedicao de oficios fisicos — prazo de 15-30 dias)
-- Consulta ao SISBAJUD pode retornar dados desatualizados (saldo de conta pode ter sido movido)
-- Pericias medica em acoes consumeristas/previdenciarias podem estar pendentes e nao agendadas
+### 6.2 Saída
+Parecer de viabilidade ao Comitê.
 
----
+### 6.3 Responsável
+Time de Análise (Risco e Investimentos).
 
-## 4. Etapa 3: Analise de Viabilidade
+### 6.4 SLA
+2 dias úteis após conclusão da DD.
 
-### Entradas
-- Relatorio de DD aprovado
-- Score de complexidade confirmado
-- Dados financeiros (valor atualizado, custos estimados, prazo de execucao)
-- Pesquisa patrimonial consolidada
+## 7. Etapa 5 — Comitê de Investimentos
 
-### Processamento
-1. Pontuacao dos quatro fatores do SVP (PJS, MRA, PR, QPD)
-2. Calculo do SVP consolidado
-3. Calculo do VPL em tres cenarios (otimista, base, pessimista)
-4. Definicao da taxa de desconto aplicavel (por tipo de acao e score)
-5. Determinacao do valor maximo de aporte
-6. Verificacao de limites de concentracao de portfolio
-7. Emissao do parecer de viabilidade
+### 7.1 Atividades
+1. Apresentação do parecer pelo time de Análise
+2. Discussão de riscos
+3. Decisão: aprovar, aprovar com ressalva, rejeitar, solicitar diligência adicional
 
-### Saidas
-- Parecer de viabilidade com SVP e VPL
-- Valor maximo de aporte recomendado
-- Cenarios de retorno (multiplo bruto e liquido)
-- Condicoes especiais ou excecoes (se aplicavel)
+### 7.2 Composição
+- CIO (presidente)
+- Diretor Jurídico
+- Compliance Officer
+- Head de Risco
 
-### Responsaveis
+### 7.3 Frequência
+Reuniões semanais regulares e extraordinárias para urgências.
 
-| Funcao | Papel |
-|--------|-------|
-| Analista Financeiro | Calculo do SVP, VPL e cenarios |
-| Coordenador de Origination | Validacao do parecer |
+### 7.4 Limites de delegação
+| Decisor | Ticket máximo |
+|---|---|
+| Coordenador Jurídico (com ressalva) | R$ 1.000.000 |
+| CIO | R$ 5.000.000 |
+| Comitê pleno | Acima de R$ 5.000.000 |
 
-### SLA
-- **3 dias uteis** para scores 1-3
-- **5 dias uteis** para scores 4
+## 8. Etapa 6 — Formalização
 
-### Gargalos Conhecidos
-- Divergencia entre analistas sobre pontuacao dos fatores do SVP (resolvida por media aritmetica)
-- Cenarios pessimistas com VPL negativo exigem recalculo com parametros alternativos
-- Verificacao de limites de concentracao requer acesso ao portfolio atualizado (sistema pode estar desatualizado)
+### 8.1 Atividades
+1. Negociação final com cedente
+2. Elaboração do termo de cessão
+3. Coleta de assinaturas (cedente, cessionária, testemunhas)
+4. Notificação ao devedor (quando aplicável)
+5. Habilitação no processo (juntada do termo de cessão e substituição processual)
 
----
+### 8.2 Saída
+Termo de cessão registrado e protocolizado.
 
-## 5. Etapa 4: Aprovacao
+### 8.3 Responsável
+Time Jurídico (formalização).
 
-### Entradas
-- Parecer de triagem
-- Relatorio de DD
-- Parecer de viabilidade
-- Proposta de aporte (valor, condicoes, prazo)
+### 8.4 SLA
+5 dias úteis a partir da aprovação do Comitê.
 
-### Processamento
-1. Verificacao de aderencia aos criterios de aprovacao (valor, score, concentracao)
-2. Avaliacao do nivel de aprovacao requerido (conforme valor nominal)
-3. Reuniao ou deliberacao do nivel competente
-4. Decisao: aprovado / rejeitado / condicionado (com contrapartidas)
-5. Emissao da aprovacao formal
+## 9. Etapa 7 — Pagamento ao cedente
 
-### Saidas
-- Aprovacao formal (ou rejeicao fundamentada)
-- Valor de aporte autorizado (pode ser inferior ao recomendado)
-- Condicoes especiais (prazos de acompanhamento, gatilhos de revisao)
+### 9.1 Atividades
+1. Validação dos dados bancários do cedente
+2. Conferência de CNDs (quando aplicável à operação)
+3. Liberação do pagamento
 
-### Responsaveis
+### 9.2 Responsável
+Financeiro.
 
-| Faixa de Valor | Aprovador |
-|----------------|-----------|
-| Ate R$ 100 mil | Coordenador + Analista Financeiro |
-| R$ 100-300 mil | Diretor de Operacoes + Diretor Financeiro |
-| R$ 300-500 mil | Comite de Aprovacao (3 diretores) |
-| Acima de R$ 500 mil | Comite + CEO (unanimidade) |
+### 9.3 SLA
+2 dias úteis após formalização completa e validação.
 
-### SLA
-- **2 dias uteis** para aprovacoes de Coordenador/Diretor
-- **5 dias uteis** para Comite de Aprovacao
-- **7 dias uteis** para Comite + CEO
+## 10. Etapa 8 — Cumprimento de sentença
 
-### Gargalos Conhecidos
-- Comite de Aprovacao se reune semanalmente — deals submetidos fora do prazo podem aguardar ate 7 dias
-- Deals condicionados exigem nova rodada de aprovacao apos atendimento das condicoes
-- CEO pode solicitar analise complementar para deals acima de R$ 500 mil
+### 10.1 Atividades (devedor privado)
+1. Petição de habilitação da PX como cessionária
+2. Acompanhamento de embargos do executado, se opostos
+3. Atos executórios: penhora online (Sisbajud), penhora de bens, registro de protesto
+4. Negociações de acordo, se aplicável
 
----
+### 10.2 Atividades (precatórios)
+1. Habilitação do crédito perante o ente devedor
+2. Acompanhamento da fila cronológica
+3. Atualização monetária periódica
 
-## 6. Etapa 5: Monitoramento
+### 10.3 Responsável
+Time Jurídico (recuperação) ou escritório terceirizado quando aplicável.
 
-### Entradas
-- Contrato de cessao de credito assinado
-- Credito judicial em nome da PX (apos cessao)
-- Plano de execucao e acompanhamento
+### 10.4 SLA
+Variável conforme natureza e devedor (vide MV-001, seção 3.2).
 
-### Processamento
-1. Acompanhamento processual mensal (andamento da acao, decisoes, recursos)
-2. Execucao judicial (requerimento de penhora, leilao, oficios)
-3. Monitoramento financeiro (atualizacao de VPL, cenarios revisados)
-4. Reporte mensal ao Comite de Risco (status do portfolio)
-5. Provision trimestral para perdas (conforme politica contabil)
-6. Encerramento apos liquidacao integral do credito
+## 11. Etapa 9 — Recebimento
 
-### Saidas
-- Relatorio mensal de acompanhamento por deal
-- Atualizacao de VPL e cenarios
-- Provision para perdas
-- Relatorio de portfolio para stakeholders
+### 11.1 Atividades
+1. Levantamento de alvará judicial ou recebimento direto
+2. Conferência do valor recebido vs. valor esperado
+3. Registro contábil
+4. Atualização do status no sistema
 
-### Responsaveis
+### 11.2 Responsável
+Financeiro + Jurídico.
 
-| Funcao | Papel |
-|--------|-------|
-| Analista de Acompanhamento | Monitoramento processual e execucao |
-| Advogado Externo | Representacao judicial (quando necessario) |
-| Coordenador de Portfolio | Reporte ao Comite e provision |
+## 12. Etapa 10 — Liquidação
 
-### SLA
-- Relatorio mensal: ate o dia 10 do mes seguinte
-- Provision trimestral: ate o dia 15 do mes seguinte ao trimestre
-- Alertas criticos (ex: decisao judicial desfavoravel): comunicacao em ate 24 horas
+### 12.1 Atividades
+1. Reconciliação final do ativo
+2. Cálculo da TIR efetiva
+3. Atualização do backtesting (vide MV-001, seção 9)
+4. Encerramento contábil
+5. Arquivamento documental conforme PC-001
 
-### Gargalos Conhecidos
-- Acompanhamento de precatorios federais e lento (poucas atualizacoes no sistema do tribunal)
-- Execucao judicial em comarcas do interior pode ter andamento lento (sobrecarga da vara)
-- Atualizacao de VPL requer recalculo manual quando parametros mudam (Selic, INPC)
+### 12.2 Responsável
+Risco e Financeiro.
 
----
+## 13. Pontos de medição (KPIs operacionais)
 
-## 7. Gargalos Conhecidos (Visao Consolidada)
+| KPI | Definição | Meta |
+|---|---|---|
+| Taxa de pré-aceite | % de oportunidades originadas que passam na triagem | 35% |
+| Taxa de aprovação | % de pré-aceitos aprovados pelo Comitê | 60% |
+| Taxa de aquisição efetiva | % de aprovados que viram aquisição | 80% |
+| Tempo médio de ciclo | Originação → Aquisição | ≤ 25 dias úteis |
+| TIR média da carteira | Retorno realizado | ≥ 22% a.a. |
+| Erro médio de prazo | Diferença entre prazo estimado e realizado | ≤ ±15% |
 
-| Etapa | Gargalo Principal | Impacto | Mitigacao |
-|-------|-------------------|---------|-----------|
-| Triagem | Documentacao incompleta do cedente | +3-5 dias por ciclo de complementacao | Checklist online com validacao automatica |
-| DD | Pesquisa patrimonial em comarcas offline | +15-30 dias | Parceria com cartorios digitais (ARISP, CNS) |
-| DD | Pericias pendentes nao agendadas | Impede conclusao da DD | Verificar status da pericia na triagem |
-| Analise | Divergencia entre analistas | +1-2 dias | Media aritmetica + documentar discrepancia |
-| Aprovacao | Periodicidade do Comite | +2-7 dias | Reunioes extraordinarias para deals criticos |
-| Monitoramento | Comarcas com andamento lento | Prazo real > prazo estimado | Priorizar deals com execucao provisoria |
+## 14. Pontos de dor identificados
 
----
+A revisão semestral de 2025-S2 identificou:
 
-*Documento aprovado pela Diretoria Executiva em 20/02/2025. Proxima revisao: 20/08/2025.*
+1. **Triagem manual repetitiva:** validação documental absorve 40% do tempo do Analista Jr — candidato a automação prioritária
+2. **Heterogeneidade na DD:** documentos similares são analisados de forma inconsistente entre analistas — oportunidade para padronização assistida por IA
+3. **Demora na produção do parecer de viabilidade:** modelos de planilha exigem retrabalho — oportunidade para automação parcial do scoring
+4. **Conhecimento institucional disperso:** decisões passadas em casos similares nem sempre são consultadas — oportunidade para Knowledge Agent (referência a JE-001)
+
+## 15. Sistemas utilizados
+
+| Sistema | Uso |
+|---|---|
+| Pipefy | Workflow de operações (originação → liquidação) |
+| Drive corporativo | Repositório documental |
+| Slack | Comunicação interna |
+| Sisbajud | Penhora online em cumprimentos |
+| Plataforma processual (PJe / eproc / esaj) | Acompanhamento processual |
+| ERP financeiro | Controle de pagamentos e recebimentos |
+| Excel + Google Sheets | Modelagem de viabilidade (legado, em revisão) |
+
+## 16. Documentos Relacionados
+
+- PT-001 — Política de Triagem
+- DD-001 — Template de Due Diligence
+- MV-001 — Manual de Análise de Viabilidade
+- TR-001 — Tabela de Riscos
+- PC-001 — Política de Compliance
+- JE-001 — Jurisprudência: Exemplos de Casos
+- FAQ-001 — FAQ Interno

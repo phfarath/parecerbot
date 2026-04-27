@@ -44,17 +44,28 @@ A PX Ativos Judiciais opera um pipeline manual de cinco etapas (triagem, due dil
 
 ## 4. Mapa de Workflows
 
-```
-Oportunidade -> [TRIAGEM] -> [DUE DILIGENCE] -> [ANALISE VIABILIDADE] -> [APROVACAO] -> [MONITORAMENTO]
-                    |               |                      |                   |                |
-                    v               v                      v                   v                v
-               Criterios por    Checklist por           Score SVP,          Niveis de       Acompanha-
-               tipo de acao     categoria juridica      VPL, taxa de         aprovacao       mento mensal,
-               (manual)         (manual, inconsist.)   desconto (manual)    por valor       alertas criticos
-                                                                                              (manual)
+```mermaid
+graph LR
+    A[Oportunidade] --> B[Triagem]
+    B --> C[Due Diligence]
+    C --> D[Analise de Viabilidade]
+    D --> E[Aprovacao]
+    E --> F[Monitoramento]
+
+    B -- "30-60 min/deal" --> B1[Criterios por tipo de acao]
+    C -- "15-20% red flags perdidos" --> C1[Checklist por categoria]
+    D -- "~8% erros de formula" --> D1[Score SVP + VPL]
+    E -- "2-7 dias de espera" --> E1[Niveis por valor]
+    F -- "Reativo" --> F1[Acompanhamento mensal]
+
+    style B fill:#ffcccc
+    style C fill:#ffcccc
+    style D fill:#ffcccc
+    style E fill:#ffe6cc
+    style F fill:#ffe6cc
 ```
 
-### Pontos de dor por etapa
+Pontos de dor por etapa (em vermelho = impacto alto, laranja = impacto medio):
 
 1. **Triagem:** Consulta manual a politica de triagem (16 paginas) para cada deal. Tempo: 30-60 min/deal.
 2. **Due Diligence:** Analistas recream checklist a cada deal. Red flags perdidos em 15-20% dos casos revisados.
@@ -144,15 +155,56 @@ Oportunidade -> [TRIAGEM] -> [DUE DILIGENCE] -> [ANALISE VIABILIDADE] -> [APROVA
 
 ## 8. Stack Recomendada
 
-| Componente | POC (atual) | Producao (evolucao) |
-|------------|-------------|---------------------|
-| LLM | Claude Haiku 4.5 | Claude Sonnet (qualidade) ou Haiku (custo) conforme caso de uso |
-| Embeddings | all-MiniLM-L6-v2 (local) | OpenAI text-embedding-3-small ou modelo fine-tuned com dados da PX |
-| Vector Store | ChromaDB local | Pinecone (managed) ou pgvector (se ja usar Postgres) |
-| Interface | Streamlit | Next.js (interface dedicada) ou integracao no sistema de gestao |
-| Observabilidade | JSONL local | LangSmith, Helicone ou dashboard dedicado |
-| Autenticacao | Nenhuma | SSO corporativo (Okta, Azure AD) |
-| Dados | Mockados (8 docs Markdown) | Banco de dados do sistema de gestao + documentos reais |
+### Arquitetura atual (POC)
+
+```mermaid
+graph TD
+    subgraph Dados
+        MD[8 documentos Markdown]
+    end
+
+    subgraph Ingest["ingest.py"]
+        CK[Chunking tiktoken cl100k_base] --> EM[Embeddings all-MiniLM-L6-v2]
+        EM --> CH[ChromaDB local]
+    end
+
+    subgraph Agente["agent.py"]
+        Q[Query do usuario] --> RET[Retrieval top-8]
+        RET --> CTX[Montagem de contexto]
+        CTX --> CL[Claude Haiku 4.5]
+        CL --> RES[Resposta + citacoes]
+        RES --> LOG[Logging JSONL]
+    end
+
+    subgraph UI["app.py - Streamlit"]
+        CHAT[Chat com streaming]
+        SID[Sidebar: docs, stats]
+        QA[Quick Actions]
+        EXP[Exportar conversa]
+    end
+
+    MD --> CK
+    CH --> RET
+    RES --> CHAT
+    LOG --> AUD[Auditoria queries.jsonl]
+
+    style Dados fill:#e8f5e9
+    style Ingest fill:#e3f2fd
+    style Agente fill:#fff3e0
+    style UI fill:#f3e5f5
+```
+
+### Evolucao para producao
+
+| Componente | POC (atual) | Producao (evolucao) | Quando migrar |
+|------------|-------------|---------------------|---------------|
+| LLM | Claude Haiku 4.5 | Claude Sonnet (qualidade) ou Haiku (custo) conforme caso de uso | Onda 2 |
+| Embeddings | all-MiniLM-L6-v2 (local) | OpenAI text-embedding-3-small ou modelo fine-tuned com dados da PX | Onda 2 |
+| Vector Store | ChromaDB local | Pinecone (managed) ou pgvector (se ja usar Postgres) | Onda 2-3 |
+| Interface | Streamlit | Next.js (interface dedicada) ou integracao no sistema de gestao | Onda 3 |
+| Observabilidade | JSONL local | LangSmith, Helicone ou dashboard dedicado | Onda 2 |
+| Autenticacao | Nenhuma | SSO corporativo (Okta, Azure AD) | Onda 2 |
+| Dados | Mockados (8 docs Markdown) | Banco de dados do sistema de gestao + documentos reais | Onda 1 |
 
 ---
 

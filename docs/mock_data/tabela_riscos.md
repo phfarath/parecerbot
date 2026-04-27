@@ -1,163 +1,214 @@
-# Tabela de Riscos — PX Ativos Judiciais
+# Tabela de Riscos
 
-**Versao:** 2.3 | **Vigencia:** 01/03/2025 | **Classificacao:** Interno — Uso Restrito
-
-Valores ilustrativos baseados em benchmarks publicos do setor — a serem validados com dados reais da PX.
-
----
-
-## 1. Matriz de Riscos por Tipo de Acao
-
-### 1.1 Visao Consolidada
-
-| Tipo de Acao | Prob. Sucesso Media | Prazo Medio (meses) | Volatilidade do Valor | Risco Recomendado | Retorno Esperado (liquido) | Acao Recomendada |
-|--------------|---------------------|---------------------|----------------------|-------------------|---------------------------|------------------|
-| Trabalhista (exec. com garantia) | 82% | 16 | Baixa | Baixo | 1.4x — 1.9x | Prioridade alta |
-| Trabalhista (exec. provisorio) | 62% | 28 | Media | Medio | 1.3x — 1.7x | Seletivo |
-| Trabalhista (grupo economico) | 48% | 40 | Alta | Alto | 1.0x — 1.5x | Cautela — apenas com garantia |
-| Civel (precatorio inscrito) | 78% | 32 | Baixa | Baixo-Medio | 1.5x — 2.0x | Prioridade (com preferencia) |
-| Civel (precatorio nao inscrito) | 60% | 48 | Media | Medio | 1.2x — 1.6x | Seletivo |
-| Civel (execucao particular) | 55% | 30 | Alta | Alto | 1.1x — 1.5x | Cautela — DD patrimonial rigoroso |
-| Consumidor (sentenca transitada) | 80% | 8 | Baixa | Baixo | 1.4x — 1.7x | Prioridade alta |
-| Consumidor (exec. provisorio) | 58% | 20 | Media | Medio | 1.2x — 1.5x | Seletivo |
-| Previdenciario (RPV) | 88% | 5 | Muito baixa | Muito baixo | 1.3x — 1.6x | Prioridade maxima |
-| Previdenciario (precatorio) | 72% | 36 | Media | Medio | 1.3x — 1.8x | Seletivo (verificar preferencia) |
-
-### 1.2 Classificacao de Risco Detalhada
-
-#### Risco Muito Baixo
-- **Perfil:** RPVs previdenciarias com beneficio concedido e valor definido
-- **Probabilidade de recebimento:** > 85%
-- **Prazo tipico:** 3-7 meses
-- **Volatilidade:** Minima — pagamento pelo INSS e praticamente garantido dentro do prazo legal
-- **Recomendacao:** Aporte ate 65% do valor atualizado. Score SVP esperado: 8-10.
-
-#### Risco Baixo
-- **Perfil:** Execucoes trabalhistas com penhora sobre dinheiro; consumeristas com sentenca transitada contra empresa solida
-- **Probabilidade de recebimento:** 75-85%
-- **Prazo tipico:** 6-18 meses
-- **Volatilidade:** Baixa — valor definido e devedor identificavel
-- **Recomendacao:** Aporte ate 60% do valor atualizado. Score SVP esperado: 7-8.5.
-
-#### Risco Medio
-- **Perfil:** Execucoes provisorias (trabalhistas e consumeristas); precatorios inscritos sem preferencia; execucoes civeis com patrimonio identificavel
-- **Probabilidade de recebimento:** 55-75%
-- **Prazo tipico:** 20-40 meses
-- **Volatilidade:** Moderada — depende de recursos pendentes e tempo de execucao
-- **Recomendacao:** Aporte ate 50% do valor atualizado. Score SVP esperado: 5.5-7.0. Requer analise mais rigorosa.
-
-#### Risco Alto
-- **Perfil:** Execucoes contra devedores sem patrimonio; grupos economicos em recuperacao; precatorios nao inscritos; acoes com teses controversas
-- **Probabilidade de recebimento:** 35-55%
-- **Prazo tipico:** 36-60+ meses
-- **Volatilidade:** Alta — resultado depende de multiplos fatores incertos
-- **Recomendacao:** Aporte ate 35% do valor atualizado. Score SVP esperado: 3.5-5.0. Requer aprovacao do Comite com justificativa.
+**Documento:** TR-001
+**Versão:** 5.1
+**Vigência:** A partir de 01/03/2026
+**Aprovação:** Head de Risco
+**Revisão:** Trimestral
+**Última calibração:** 2026-Q1, com base no histórico 2022-2025
 
 ---
 
-## 2. Fatores de Ajuste
+## 1. Propósito
 
-Os fatores abaixo modificam a probabilidade de exito e o score de risco de qualquer tipo de acao:
+Esta tabela consolida os fatores de risco aplicados na precificação de ativos pela PX. Os haircuts indicados são baseados em histórico próprio da carteira e em benchmarks públicos. São aplicados sobre o valor de face na etapa de Análise de Viabilidade (MV-001, seção 3.3).
 
-### 2.1 Fatores que Reduzem Risco (ajustam probabilidade +5-15 p.p.)
+Os valores são calibrados trimestralmente pelo time de Risco com base em backtesting da carteira própria.
 
-| Fator | Impacto | Aplicavel a |
-|-------|---------|-------------|
-| Garantia real constituida (penhora sobre dinheiro) | +15 p.p. | Todos |
-| Cedente com idade >= 60 anos (preferencia em precatorios) | +10 p.p. | Civel, Previdenciario |
-| Devedor com rating investment grade | +10 p.p. | Consumidor, Civel |
-| Sentenca transitada em julgado (sem recursos pendentes) | +10 p.p. | Todos |
-| Acordo de parcelamento com clausula de confissao de divida | +5 p.p. | Todos |
+## 2. Como ler esta tabela
 
-### 2.2 Fatores que Aumentam Risco (ajustam probabilidade -5-20 p.p.)
+Cada fator de risco recebe:
+- **Probabilidade**: estimativa histórica de ocorrência
+- **Severidade**: impacto típico no fluxo de caixa
+- **Haircut sugerido**: redução aplicada sobre o valor de face
 
-| Fator | Impacto | Aplicavel a |
-|-------|---------|-------------|
-| Reu em recuperacao judicial ou falencia | -20 p.p. | Todos |
-| Ausencia de bens penhoraveis na pesquisa inicial | -15 p.p. | Todos |
-| Recurso especial ou extraordinario pendente | -10 p.p. | Todos |
-| Devedor com mais de 50 execucoes em curso | -10 p.p. | Todos |
-| Sentenca com fundamentacao contraditoria ou generica | -10 p.p. | Todos |
-| Precatorio sem preferencia e posicao > top 50% da fila | -10 p.p. | Civel, Previdenciario |
-| Pericia controversa ou nao realizada | -10 p.p. | Consumidor, Previdenciario |
-| Discussao sobre grupo economico | -5 p.p. | Trabalhista |
-| Conflito de competencia pendente | -5 p.p. | Todos |
-| Cedente com historico de anulacao de cessao | -15 p.p. | Todos |
+Quando múltiplos fatores se aplicam, o haircut total é calculado como:
+
+```
+haircut_total = 1 − (1 − h1) × (1 − h2) × ... × (1 − hn)
+```
+
+Esta fórmula evita haircuts compostos superiores a 100%.
 
 ---
 
-## 3. Limites de Exposicao
+## 3. Riscos por natureza do devedor
 
-### 3.1 Limites por Deal
+### 3.1 União
 
-| Faixa de Valor Nominal | % Maximo do Portfolio | Aporte Maximo (% do nominal) | Score Minimo |
-|------------------------|-----------------------|------------------------------|-------------|
-| Ate R$ 50 mil | 3% | 65% | 5.0 |
-| R$ 50 — 150 mil | 5% | 60% | 5.0 |
-| R$ 150 — 300 mil | 8% | 55% | 5.5 |
-| R$ 300 — 500 mil | 10% | 50% | 6.0 |
-| Acima de R$ 500 mil | 10% | 45% | 6.5 |
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Atraso no cronograma orçamentário | Baixa (5%) | Média | 2% |
+| EC com modulação de pagamento | Baixa (3%) | Alta | 5% |
+| Compensação rejeitada (tributário) | Média (15%) | Alta | 8% |
 
-### 3.2 Limites por Tipo de Acao
+### 3.2 Estados — em dia com precatórios
 
-| Tipo de Acao | % Maximo do Portfolio | Justificativa |
-|--------------|-----------------------|---------------|
-| Trabalhista | 35% | Volume alto, risco moderado, boa diversificacao |
-| Civel | 30% | Prazos longos em precatorios — concentracao eleva risco |
-| Consumidor | 25% | Tickets menores, boa velocidade — limite por concentracao |
-| Previdenciario | 25% | Baixo risco individual mas dependencia de orgao publico unico |
+São Paulo, Distrito Federal, Mato Grosso, Paraná (status 2026-Q1).
 
-### 3.3 Limites por Devedor
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Atraso pontual no pagamento | Baixa (10%) | Baixa | 3% |
+| Mudança de regime após eleição | Baixa (5%) | Média | 4% |
 
-| Condicao | % Maximo do Portfolio |
-|----------|-----------------------|
-| Mesmo devedor (PJ) | 15% |
-| Mesmo grupo economico | 20% |
-| Mesmo orgao publico (INSS, Fazenda) | 30% |
+### 3.3 Estados — atraso histórico
 
-### 3.4 Limites por Score de Complexidade
+Rio de Janeiro, Minas Gerais, Rio Grande do Sul, Goiás (status 2026-Q1, sujeito a revisão).
 
-| Score | % Maximo do Portfolio |
-|-------|-----------------------|
-| 1-2 | Sem limite |
-| 3 | 40% |
-| 4 | 15% |
-| 5 | 0% (rejeicao obrigatoria) |
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Atraso no cronograma | Alta (75%) | Alta | 15% |
+| Acordo de deságio com credores | Média (30%) | Alta | 12% adicional se ocorrer |
+| Risco político (mudança de gestão) | Média (40% por ciclo) | Média | 4% |
 
----
+### 3.4 Municípios
 
-## 4. Cenarios de Stress
+Avaliação caso a caso. Capitais de estados em dia: tratar como nota 3 do scoring. Demais municípios: requer parecer específico.
 
-### 4.1 Parametros por Cenario
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Inexistência de cronograma público | Variável | Alta | 10% mínimo |
+| Histórico de inadimplência > 24 meses | Alta (60%) | Alta | 18% |
 
-| Parametro | Pessimista | Base | Otimista |
-|-----------|------------|------|----------|
-| Prob. recebimento media do portfolio | 50% | 70% | 85% |
-| Prazo medio de resolucao | +40% vs. estimado | Estimado | -20% vs. estimado |
-| Taxa de inadimplencia do portfolio | 25% | 12% | 5% |
-| Recuperacao em caso de default | 30% | 55% | 75% |
-| Custo de capital (CDI) | 14% a.a. | 10% a.a. | 8% a.a. |
-| Valor residual do portfolio | 60% do investido | 80% | 95% |
+### 3.5 Empresas privadas — capital aberto, IBOV
 
-### 4.2 Teste de Stress Obrigatorio
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Embargos com redução parcial | Média (25%) | Baixa | 4% |
+| Acordo com deságio voluntário | Baixa (15%) | Média | 5% |
+| Pedido de RJ no horizonte de 24 meses | Baixa (3%) | Catastrófica | reclassifica |
 
-Todo credito com valor nominal acima de R$ 100 mil deve ser submetido ao teste de stress:
+### 3.6 Empresas privadas — capital fechado solventes
 
-1. Aplicar cenario pessimista a todos os parametros do deal
-2. Recalcular VPL com taxa de desconto majorada em 5 p.p.
-3. Verificar se o portfolio (incluindo o novo deal) nao viola nenhum limite de concentracao no cenario pessimista
-4. Se VPL pessimista for negativo: deal so prossegue com aprovacao do Comite + CEO
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Resistência à execução | Alta (60%) | Média | 8% |
+| Embargos com efeito suspensivo | Média (35%) | Média | 6% |
+| Pedido de RJ no horizonte de 24 meses | Média (12%) | Catastrófica | 10% (provisão) |
 
-### 4.3 Stress Teste Trimestral do Portfolio
+### 3.7 Empresas em situação especial
 
-O Comite de Risco realiza teste de stress trimestral do portfolio completo:
+#### 3.7.1 Recuperação judicial
 
-1. Simular cenario pessimista em 100% dos deals em andamento
-2. Calcular perda potencial total e comparar com patrimonio de referencia
-3. Verificar se limites de concentracao sao violados no cenario pessimista
-4. Identificar deals com deterioracao significativa (prob. realizada < prob. inicial - 20 p.p.)
-5. Recomendar provision adicional ou saida antecipada para deals deteriorados
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Aprovação do plano com deságio | Alta (85%) | Alta | 50-70% |
+| Conversão em falência | Média (20%) | Catastrófica | 80% |
+| Atraso no pagamento conforme plano | Alta (50%) | Média | 8% |
+
+#### 3.7.2 Falência
+
+Crédito quirografário em massa falida com ativos: avaliar caso a caso, recuperação típica entre 5% e 25% do face.
 
 ---
 
-*Documento aprovado pelo Comite de Risco Financeiro em 15/02/2025. Proxima revisao: 15/08/2025.*
+## 4. Riscos processuais
+
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Recurso especial admitido | Baixa (10%) | Alta | 7% |
+| Embargos do executado opostos | Média (35%) | Média | 5% |
+| Embargos com redução de valor (>10%) | Baixa (12%) | Média | 4% |
+| Penhora no rosto dos autos por terceiro | n/a | Bloqueante | rejeitar |
+| Alegação de prescrição intercorrente | Baixa (8%) | Alta | 6% |
+
+---
+
+## 5. Riscos por natureza da ação
+
+### 5.1 Trabalhista
+
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Redirecionamento para sócios (necessário) | Média (25%) | Média | 5% |
+| Discussão sobre índices de correção | Média (30%) | Baixa | 3% |
+| Acordo na fase de execução | Alta (50%) | Baixa | 4% — costuma reduzir prazo |
+
+### 5.2 Cível
+
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Denunciação à seguradora | Média (20%) | Baixa | benéfico se solvente |
+| Responsabilidade subsidiária | Baixa (15%) | Média | 5% |
+| Dano moral com revisão pelo TJ | Média (30%) | Média | 6% |
+
+### 5.3 Consumidor
+
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Réu adota estratégia de atraso | Alta (60%) | Baixa | 3% (ajuste de prazo) |
+| Embargos com base em CDC | Média (25%) | Baixa | 3% |
+| Tese revertida por overruling | Baixa (5%) | Catastrófica | 50% |
+
+### 5.4 Previdenciário
+
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Retenção de IR pelo INSS | Alta (90%) | Média | 8% (se não previsto) |
+| Erro no cálculo da contadoria | Baixa (10%) | Baixa | 2% |
+| Cessão de benefício em juízo | Baixa (5%) | Alta | rejeitar (vide PT-001) |
+
+### 5.5 Tributário
+
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Habilitação parcialmente rejeitada | Média (25%) | Alta | 10% |
+| Modulação dos efeitos pelo STF | Baixa (8%) | Catastrófica | 30% |
+| Demora na restituição administrativa | Alta (70%) | Média | 6% (ajuste de prazo) |
+
+---
+
+## 6. Riscos de cedente
+
+| Fator | Probabilidade | Severidade | Haircut |
+|---|---|---|---|
+| Cessão anterior não declarada | Baixa (3%) | Bloqueante | rejeitar |
+| Cedente em insolvência (fraude contra credores) | Baixa (5%) | Alta | 15% + provisão |
+| Espólio sem alvará específico | n/a | Bloqueante | aguardar regularização |
+| Conflito de interesse não declarado | n/a | Bloqueante | rejeitar (vide PC-001) |
+
+---
+
+## 7. Casos especiais
+
+### 7.1 Lotes pulverizados
+
+Em lotes com mais de 30 ativos, aplicar haircut adicional de 2-4% para cobrir:
+- Variabilidade da execução individual
+- Custo operacional de gestão de muitos processos
+- Possibilidade de parte dos ativos não se confirmarem na DD por amostragem
+
+### 7.2 Originadores novos
+
+Operações com originadores sem histórico têm haircut adicional de 3% nos primeiros R$ 5 milhões transacionados, removido após validação da qualidade.
+
+### 7.3 Concentração
+
+Quando uma operação leva a exposição superior a 5% da carteira em um único devedor, aplicar haircut adicional de 5% ou recusar (vide MV-001, seção 7).
+
+---
+
+## 8. Calibração e backtesting
+
+A tabela é recalibrada trimestralmente. A calibração de 2026-Q1 ajustou:
+
+- **Estados em atraso (RJ, MG, RS, GO):** haircut elevado de 12% para 15% após observação de atrasos médios maiores que o previsto
+- **Tributário:** introdução de haircut de 10% para habilitação parcialmente rejeitada, após o caso TRB-FED-2023-0021 (vide JE-001)
+- **Empresas em RJ:** ampliação da faixa de 50-70% (era 40-60%) após análise da carteira 2022-2024
+
+A próxima revisão ocorre em julho/2026.
+
+## 9. Fontes de dados
+
+- Carteira própria da PX (2018-2025): histórico de 412 operações liquidadas
+- Anuário CNJ "Justiça em Números"
+- Relatórios CNJ de cumprimento de precatórios pelos estados
+- Demonstrações financeiras públicas (CVM, B3)
+- Decisões do STJ e STF em teses paradigmáticas
+
+## 10. Documentos Relacionados
+
+- MV-001 — Manual de Análise de Viabilidade
+- DD-001 — Template de Due Diligence
+- JE-001 — Jurisprudência: Exemplos de Casos
+- PT-001 — Política de Triagem
