@@ -1,7 +1,10 @@
 import json
 import os
+import sys
 import time
 from datetime import datetime
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 import anthropic
 import chromadb
