@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env
+chroma_db/
+logs/queries.jsonl
+.superpowers/
+.venv/
+*.egg-info/
+dist/
+.DS_Store
