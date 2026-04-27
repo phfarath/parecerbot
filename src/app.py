@@ -94,8 +94,7 @@ def main():
             )
 
     for msg in st.session_state.messages:
-        avatar = None if msg["role"] == "user" else "AI"
-        with st.chat_message(msg["role"], avatar=avatar):
+        with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
             if "sources" in msg and msg["sources"]:
                 render_sources(msg["sources"])
@@ -116,7 +115,7 @@ def main():
         st.session_state.messages.append({"role": "user", "content": query})
         with st.chat_message("user"):
             st.markdown(query)
-        with st.chat_message("assistant", avatar="AI"):
+        with st.chat_message("assistant"):
             response_placeholder = st.empty()
             full_response = ""
             sources = []
